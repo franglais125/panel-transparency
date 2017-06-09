@@ -1,0 +1,10 @@
+{
+"shell-version": ["3.18", "3.20", "3.22", "3.24"],
+"uuid": "transparency@franglais125.gmail.com",
+"name": "Panel Transparency",
+"description": "Panel Transparency",
+"original-author": "franglais125@gmail.com",
+"url": "https://github.com/franglais125/panel-transparency",
+"gettext-domain": "panel-transparency",
+"version": -1
+}
