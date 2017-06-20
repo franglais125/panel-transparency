@@ -62,12 +62,17 @@ const PanelTransparency = new Lang.Class({
     },
 
     _onWindowActorAdded: function(container, metaWindowActor) {
-        let signalId = metaWindowActor.connect('allocation-changed', Lang.bind(this, this._updateSolidStyle));
-        this._trackedWindows.set(metaWindowActor, signalId);
+        let signalIds = [];
+        ['allocation-changed', 'notify::visible'].forEach(s => {
+            signalIds.push(metaWindowActor.connect(s, Lang.bind(this, this._updateSolidStyle)));
+        });
+        this._trackedWindows.set(metaWindowActor, signalIds);
     },
 
     _onWindowActorRemoved: function(container, metaWindowActor) {
-        metaWindowActor.disconnect(this._trackedWindows.get(metaWindowActor));
+        this._trackedWindows.get(metaWindowActor).forEach(id => {
+            metaWindowActor.disconnect(id);
+        });
         this._trackedWindows.delete(metaWindowActor);
         this._updateSolidStyle();
     },
@@ -115,7 +120,9 @@ const PanelTransparency = new Lang.Class({
 
         if (this._trackedWindows) {
             for (let key of this._trackedWindows.keys())
-                key.disconnect(this._trackedWindows.get(key));
+                this._trackedWindows.get(key).forEach(id => {
+                    key.disconnect(id);
+                });
             this._trackedWindows.clear();
         }
 
