@@ -117,7 +117,6 @@ const PanelTransparency = new Lang.Class({
             for (let key of this._trackedWindows.keys())
                 key.disconnect(this._trackedWindows.get(key));
             this._trackedWindows.clear();
-            this._trackedWindows = null;
         }
 
         this._signalsHandler.destroy();
