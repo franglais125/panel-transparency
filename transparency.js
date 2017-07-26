@@ -55,7 +55,8 @@ const PanelTransparency = new Lang.Class({
         ]);
 
         global.get_window_actors().forEach(function(win) {
-            this._onWindowActorAdded(null, win);
+            if (win.get_meta_window().get_wm_class() !== 'Gnome-shell')
+                this._onWindowActorAdded(null, win);
         }, this);
 
         this._updateSolidStyle();
